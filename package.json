@@ -1,5 +1,5 @@
 {
-  "name": "clarity-date-picker",
+  "name": "clarity-datepicker",
   "version": "1.0.1",
   "scripts": {
     "ng": "ng",
@@ -20,6 +20,7 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
+    "clarity-datepicker": "^1.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "vip-date-picker": "^1.0.0",

@@ -4,7 +4,7 @@ import { DatePickerService } from './date-picker.service';
 import { initDate } from './date-picker.model';
 
 @Component({
-  selector: 'date-picker',
+  selector: 'clarity-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss']
 })

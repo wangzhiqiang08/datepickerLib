@@ -1,5 +1,5 @@
 {
-  "name": "date-picker",
+  "name": "clarity-date-picker",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^13.3.0",
@@ -8,23 +8,23 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "module": "fesm2015/date-picker.mjs",
-  "es2020": "fesm2020/date-picker.mjs",
-  "esm2020": "esm2020/date-picker.mjs",
-  "fesm2020": "fesm2020/date-picker.mjs",
-  "fesm2015": "fesm2015/date-picker.mjs",
-  "typings": "date-picker.d.ts",
+  "module": "fesm2015/clarity-date-picker.mjs",
+  "es2020": "fesm2020/clarity-date-picker.mjs",
+  "esm2020": "esm2020/clarity-date-picker.mjs",
+  "fesm2020": "fesm2020/clarity-date-picker.mjs",
+  "fesm2015": "fesm2015/clarity-date-picker.mjs",
+  "typings": "clarity-date-picker.d.ts",
   "exports": {
     "./package.json": {
       "default": "./package.json"
     },
     ".": {
-      "types": "./date-picker.d.ts",
-      "esm2020": "./esm2020/date-picker.mjs",
-      "es2020": "./fesm2020/date-picker.mjs",
-      "es2015": "./fesm2015/date-picker.mjs",
-      "node": "./fesm2015/date-picker.mjs",
-      "default": "./fesm2020/date-picker.mjs"
+      "types": "./clarity-date-picker.d.ts",
+      "esm2020": "./esm2020/clarity-date-picker.mjs",
+      "es2020": "./fesm2020/clarity-date-picker.mjs",
+      "es2015": "./fesm2015/clarity-date-picker.mjs",
+      "node": "./fesm2015/clarity-date-picker.mjs",
+      "default": "./fesm2020/clarity-date-picker.mjs"
     }
   },
   "sideEffects": false

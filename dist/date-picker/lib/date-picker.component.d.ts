@@ -38,5 +38,5 @@ export declare class DatePickerComponent implements OnInit {
     gotoCurrentYear(): void;
     closeDateBox(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DatePickerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "date-picker", never, {}, { "onDateChange": "onDateChange"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, {}, { "onDateChange": "onDateChange"; }, never, never>;
 }
