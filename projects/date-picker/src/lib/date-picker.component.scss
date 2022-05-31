@@ -1,0 +1,210 @@
+#calendar{
+  display:inline-block;
+  #ipt{
+    width: 200px;
+    border:0;
+    height: 24px;
+    outline: none;
+  }
+  .bottomLine{
+    width: 200px;
+    height: 1px;
+    background-color: rgb(109, 122, 128);
+  }
+  .container-box{
+    width: 280px;
+    height: 315px;
+    background-color: white;
+    border: 1px solid rgb(204,204,204);
+    border-radius: 5px;
+    padding:10px;
+    display: block;
+    text-align: center;
+    font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    position: relative;
+    z-index: 2000;
+    top: 4px;
+    left: 0px;
+    .day-list{
+      width: 280px;
+      font-size: 14px;
+      color: rgb(103,103,103);
+      .weekDayList>span{
+        display: inline-block;
+        width:36px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        font-weight: 600;
+      }
+      .dayBox {
+        .row-list{
+          display:flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          button{
+            width:36px;
+            height: 36px;
+            font-size: 14px;
+            border: none;
+            background-color: white;
+            color: rgb(105, 105, 105);
+            padding:0;
+            span{
+              display:inline-block;
+              width: 36px;
+              height: 36px;
+              border-radius: 3px;
+              text-align: center;
+              line-height: 36px;
+            }
+          }
+          button:hover{
+            background: rgb(232, 232, 232);
+            cursor: pointer;
+            border-radius: 3px;
+          }
+        }
+      }
+      .weekDayList{
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    .month-year-change{
+      font-size: 18px;
+      color: rgb(0, 114, 163);
+      height: 40px;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      align-items: center;
+      padding-top: 0;
+      .month-year-display{
+        span{
+          display: inline-block;
+          cursor: pointer;
+          padding:8px 7px;
+        }
+        span:hover{
+          background-color: rgb(232, 232, 232);
+          border-radius: 3px;
+        }
+        span:first-child{
+          text-align: center;
+          margin-right: 1px;
+        }
+      }
+      .change-button{
+        width: 90px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        svg{
+          width: 20px;
+          height: 20px;
+          color: rgb(0, 114, 163)
+        }
+        >span:hover{
+          cursor: pointer;
+        }
+      }
+    }
+    .month-select-box {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100%;
+      button{
+        width:50%;
+        height: 16.6%;
+        font-size: 18px;
+        color: rgb(102, 102, 102);
+        border: none;
+        background: none;
+      }
+      button.monthSelected {
+        background-color: rgb(218, 227, 232);
+        color: rgb(27, 28,29);
+        border-radius: 3px;
+      }
+      button:hover{
+        background: rgb(232, 232, 232);
+        border-radius: 3px;
+        color: rgb(0,0,0);
+      }
+    }
+    .year-select-box {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100%;
+      .change-button{
+        width: 90px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        svg{
+          width: 20px;
+          height: 20px;
+          color: rgb(0, 114, 163)
+        }
+        >span:hover{
+          cursor: pointer;
+        }
+      }
+      div{
+        button{
+          width:50%;
+          height: 20%;
+          font-size: 18px;
+          color: rgb(102, 102, 102);
+          border: none;
+          background: none;
+        }
+        button.yearSelected {
+          background-color: rgb(218, 227, 232);
+          color: rgb(27, 28,29);
+          border-radius: 3px;
+        }
+        button:hover{
+          background: rgb(232, 232, 232);
+          border-radius: 3px;
+          color: rgb(0,0,0);
+        }
+      }
+      
+    }
+  }
+}
+.notCurrentMonthDateStyle{
+  color: rgb(194, 194, 194);
+}
+
+.currentDateBgcolor{
+  background-color: rgb(232, 232, 232);
+}
+
+.currentDateFontWeight{
+  font-weight: 600;
+  color: rgb(27, 28,29);
+}
+
+.selectedDateBgColor{
+  background-color: rgb(218,227,232);
+  color: rgb(27, 28,29);
+
+}
+
+.icon{
+  width: 20px;
+  height: 20px;
+  color: #0072a3;
+  margin-left: -30px;
+  cursor: pointer;
+  
+}
+
+
