@@ -1,5 +1,6 @@
 #calendar{
   display:inline-block;
+  position: relative;
   #ipt{
     width: 200px;
     border:0;
@@ -21,10 +22,10 @@
     display: block;
     text-align: center;
     font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif;
-    position: relative;
+    position: absolute;
     z-index: 2000;
-    top: 4px;
-    left: 0px;
+    top: 30px;
+    left: 5px;
     .day-list{
       width: 280px;
       font-size: 14px;

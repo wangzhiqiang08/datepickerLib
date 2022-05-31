@@ -1,6 +1,6 @@
 {
-  "name": "vip-date-picker",
-  "version": "0.0.0",
+  "name": "date-picker",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,9 +9,8 @@
     "test": "ng test",
     "build_lib": "ng build example-lib",
     "npm_pack": "cd dist/example-lib && npm pack",
-    "package": "npm run build_lib && npm run npm_pack" 
+    "package": "npm run build_lib && npm run npm_pack"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~13.3.0",
     "@angular/common": "~13.3.0",
@@ -23,6 +22,7 @@
     "@angular/router": "~13.3.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "vip-date-picker": "^1.0.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

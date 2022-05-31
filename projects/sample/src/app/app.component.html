@@ -1,2 +1,21 @@
-<vip-date-picker></vip-date-picker>
-<!-- <app-date-picker></app-date-picker> -->
+
+<table>
+  <tr>
+    <td>User:</td>
+    <td><input type="text"></td>
+  </tr>
+  <tr>
+    <td>password:</td>
+    <td><input type="text"></td>
+  </tr>
+  <tr>
+    <td>address:</td>
+    <td><input type="text"></td>
+  </tr>
+  <tr>
+    <td>borthday:</td>
+    <td><date-picker (onDateChange)="getDate($event)"></date-picker></td>
+  </tr>
+</table>
+
+<div><button>提交</button></div>

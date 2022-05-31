@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePickerService } from './date-picker.service';
 import { initDate } from './date-picker.model';
 
 @Component({
-  selector: 'vip-date-picker',
+  selector: 'date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss']
 })
@@ -22,6 +22,7 @@ export class DatePickerComponent implements OnInit {
   isShowYearList: boolean = false;
   isShowDateList: boolean = true;
   isShowCalendar: boolean = false;
+  @Output() private onDateChange = new EventEmitter();
   constructor(private datePickerService: DatePickerService, private domSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
@@ -65,7 +66,8 @@ export class DatePickerComponent implements OnInit {
   getDateDidplayFormat() {
     if(this.selectedDate) {
       let selected: any = this.selectedDate && this.selectedDate.split("/");
-      return `${selected[0]}\/${selected[1]}\/${selected[2]}`;
+      let str = `${selected[0]}\/${selected[1]}\/${selected[2]}`;
+      return str;
     }
     return "";
   }
@@ -84,16 +86,18 @@ export class DatePickerComponent implements OnInit {
     this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, selected);
     this.selectedDate = selected;
     this.isShowCalendar = false;
+    this.onDateChange.emit(selected);
+
   }
 
   showMonthList() {
-    this.isShowMonthList = !this.isShowMonthList;
-    this.isShowDateList = !this.isShowDateList;
+    this.isShowMonthList = true;
+    this.isShowDateList = false
   }
 
   showYearList() {
-    this.isShowYearList = !this.isShowYearList;
-    this.isShowDateList = !this.isShowDateList;
+    this.isShowYearList = true;
+    this.isShowDateList = false;
   }
 
   clickMonthHandel(month: number){
@@ -141,6 +145,11 @@ export class DatePickerComponent implements OnInit {
   gotoCurrentYear() {
     let currentYear = new Date().getFullYear();
     this.yearStrList = this.datePickerService.getYearList(currentYear);
+    this.currentYear = currentYear;
+  }
+  
+  closeDateBox() {
+    this.isShowCalendar = false;
   }
 
 }

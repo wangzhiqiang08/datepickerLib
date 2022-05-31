@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'sample';
+  getDate(e: any){
+    console.log(e);
+  }
 }

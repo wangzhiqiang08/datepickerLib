@@ -9,7 +9,6 @@ export class DatePickerService {
 
   calculate(year: number,month: number,day: number): any {
     let date=year+'/'+month+'/'+'1';
-    console.log(date);
     let whichDay=new Date(date).getDay();
     let message={
           year: year,
@@ -118,7 +117,6 @@ export class DatePickerService {
         list.push(Number(i));
       }
     }
-    console.log(list)
     return list;
     
   }

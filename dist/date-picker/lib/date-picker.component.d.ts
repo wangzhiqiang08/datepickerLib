@@ -18,6 +18,7 @@ export declare class DatePickerComponent implements OnInit {
     isShowYearList: boolean;
     isShowDateList: boolean;
     isShowCalendar: boolean;
+    private onDateChange;
     constructor(datePickerService: DatePickerService, domSanitizer: DomSanitizer);
     ngOnInit(): void;
     initCalendar(options: any): void;
@@ -35,6 +36,7 @@ export declare class DatePickerComponent implements OnInit {
     preMonthList(): void;
     nextMonthList(): void;
     gotoCurrentYear(): void;
+    closeDateBox(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DatePickerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "vip-date-picker", never, {}, {}, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "date-picker", never, {}, { "onDateChange": "onDateChange"; }, never, never>;
 }

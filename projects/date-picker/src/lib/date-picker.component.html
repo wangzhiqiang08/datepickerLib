@@ -1,4 +1,4 @@
-<div id="calendar" >
+<div id="calendar" (clickOutside)="closeDateBox()">
   <div style="display:flex; justify-content: flex-end; width: 200px; height: 24px;">
     <div style="display:flex; flex-direction: column;">
       <input type="text" id='ipt' value="{{getDateDidplayFormat()}}" readonly>
@@ -26,7 +26,7 @@
   </div>
   
   <div class="container-box" [style.display]="isShowCalendar ? 'block' : 'none' ">
-    <div *ngIf="isShowDateList">
+    <div [style.display]="isShowDateList ? 'block' : 'none'">
       <div class="month-year-change">
         <div class="month-year-display">
           <span (click)="showMonthList()">{{monthStrList[currentMonth-1].short}}</span>
@@ -62,10 +62,10 @@
         <div class="dayBox">
           <div class="row-list">
             <button (click)="clickDateHandel(item.date)"  *ngFor="let item of totalCurrentMonthDaysList">
-              <span *ngIf="!selectedDate" [ngClass]="{'notCurrentMonthDateStyle':!item.isCurrentMonth, 'currentDateBgcolor': item.isToday && item.isCurrentMonth && !selectedDate, 'currentDateFontWeight': item.isToday && item.isCurrentMonth}">
+              <span [style.display]="!selectedDate ? 'block' : 'none'" [ngClass]="{'notCurrentMonthDateStyle':!item.isCurrentMonth, 'currentDateBgcolor': item.isToday && item.isCurrentMonth && !selectedDate, 'currentDateFontWeight': item.isToday && item.isCurrentMonth}">
                 {{item.date}}
               </span>
-              <span *ngIf="selectedDate" [ngClass]="{ 'selectedDateBgColor': item.isSelected, 'notCurrentMonthDateStyle':!item.isCurrentMonth, 'currentDateBgcolor': item.isToday && item.isCurrentMonth && !item.isSelected && !selectedDate, 'currentDateFontWeight': item.isToday && item.isCurrentMonth}">
+              <span [style.display]="selectedDate ? 'block' : 'none'" [ngClass]="{ 'selectedDateBgColor': item.isSelected, 'notCurrentMonthDateStyle':!item.isCurrentMonth, 'currentDateBgcolor': item.isToday && item.isCurrentMonth && !item.isSelected && !selectedDate, 'currentDateFontWeight': item.isToday && item.isCurrentMonth}">
                 {{item.date}}
               </span>
             </button>
@@ -74,11 +74,11 @@
       </div>
     </div>
   
-    <div class="month-select-box" *ngIf="isShowMonthList">
+    <div class="month-select-box" [style.display]="isShowMonthList ? 'block' : 'none'">
       <button (click)="clickMonthHandel(index+1)" [ngClass]="{'monthSelected': (index+1) == currentMonth}" *ngFor="let month of monthStrList; let index = index">{{month.long}}</button>
     </div>
   
-    <div class="year-select-box" *ngIf="isShowYearList">
+    <div class="year-select-box" [style.display]="isShowYearList ? 'block' : 'none'">
       <div style="display:flex; justify-content: center;width: 100%;">
         <div class="change-button">
           <span (click)="preMonthList()">
