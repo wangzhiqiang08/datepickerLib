@@ -1,6 +1,6 @@
 {
-  "name": "clr-date-picker-3",
-  "version": "1.0.1",
+  "name": "vip-datepicker",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

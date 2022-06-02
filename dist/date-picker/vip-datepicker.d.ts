@@ -1,5 +1,5 @@
 /**
  * Generated bundle index. Do not edit.
  */
-/// <amd-module name="clarity-date-picker" />
+/// <amd-module name="vip-datepicker" />
 export * from './public-api';

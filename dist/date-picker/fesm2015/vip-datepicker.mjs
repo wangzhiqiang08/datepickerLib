@@ -339,4 +339,4 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.10", ngImpo
  */
 
 export { DatePickerComponent, DatePickerModule, DatePickerService };
-//# sourceMappingURL=clarity-date-picker.mjs.map
+//# sourceMappingURL=vip-datepicker.mjs.map
