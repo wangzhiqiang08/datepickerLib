@@ -25,7 +25,7 @@
     </svg>
   </div>
   
-  <div class="container-box" [style.display]="isShowCalendar ? 'block' : 'none' ">
+  <div  *ngIf="weekDayFormat && weekDayFormat.length == 7" class="container-box" [style.display]="isShowCalendar ? 'block' : 'none' ">
     <div [style.display]="isShowDateList ? 'block' : 'none'">
       <div class="month-year-change">
         <div class="month-year-display">
@@ -55,7 +55,7 @@
         </div>
         
       </div>
-      <div class="day-list" id='myTable'>
+      <div class="day-list" id="myTable">
         <div class="weekDayList">
           <span *ngFor="let weekDay of weekDayFormat">{{weekDay}}</span>
         </div>

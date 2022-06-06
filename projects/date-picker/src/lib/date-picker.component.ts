@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePickerService } from './date-picker.service';
-import { initDate } from './date-picker.model';
+import { init, initDate } from './date-picker.model';
 
 @Component({
   selector: 'clarity-date-picker',
@@ -22,23 +22,42 @@ export class DatePickerComponent implements OnInit {
   isShowYearList: boolean = false;
   isShowDateList: boolean = true;
   isShowCalendar: boolean = false;
-  @Output() private onDateChange = new EventEmitter();
+  @Output() 
+  private onDateChange = new EventEmitter();
+  @Input()
+  public displayStrings!: init;
+  selectedFormat!: string;
+  @Input()
+  public currentLanguage: any = "en_US";
+
   constructor(private datePickerService: DatePickerService, private domSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.initCalendar(initDate);
+    const initCalendarDate: any = this.displayStrings || (initDate as any)[this.currentLanguage];
+    this.selectedFormat = (this.displayStrings && this.displayStrings.selectedFormat) || (initDate as any)[this.currentLanguage].selectedFormat || "en_US";
+    this.initCalendar(initCalendarDate);
     this.selectedDate = null;
     this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
-    this.monthStrList = initDate.monthStrList;
+    this.monthStrList = initCalendarDate.monthStrList;
     this.yearStrList = this.datePickerService.getYearList(this.currentYear);
   }
 
   initCalendar(options:any){
     this.weekDayFormat = options.weekDayFormat;
+    if (options.weekDayFormat.length != 7) {
+      throw SyntaxError("You cannot set a weekdayList with a length less than 7.");
+    }
     let nowDate = new Date()
     this.currentYear = nowDate.getFullYear();
     this.currentMonth = nowDate.getMonth() + 1;
     this.currentDate = nowDate.getDate();
+  }
+
+  checkWeekDayFormat(weekList: string[]) {
+    let isCorrentFormat: boolean;
+    if (weekList.length != 7) {
+      throw SyntaxError("You cannot set a weekdayList with a length less than 7.");
+    }
   }
 
   preMonth() {
@@ -64,10 +83,29 @@ export class DatePickerComponent implements OnInit {
   }
   
   getDateDidplayFormat() {
-    if(this.selectedDate) {
-      let selected: any = this.selectedDate && this.selectedDate.split("/");
-      let str = `${selected[0]}\/${selected[1]}\/${selected[2]}`;
-      return str;
+    if(!(/\//g.test(this.selectedFormat))) {
+      throw new SyntaxError("The delimiter for the time format should be '/' ");
+    }
+    if(this.selectedDate && this.selectedFormat) {
+      let selected: any = this.selectedDate.split("/");
+      let formatList = this.selectedFormat.split("/");
+      let str: any = [];
+      let selDay = selected[0];
+      let selMonth = selected[1];
+      let selYear = selected[2];
+
+      formatList && formatList.forEach(item => {
+        if (item.toLowerCase() === 'dd') {
+          str.push(selDay.length == 1 ? `0${selDay}` : selDay);
+        } else if(item.toLowerCase() === 'mm') {
+          str.push(selMonth.length == 1 ? `0${selMonth}` : selMonth);
+        } else if(item.toLowerCase() === 'yyyy') {
+          str.push(selYear);
+        } else {
+          throw new SyntaxError("The date format you entered is incorrect. Please refer to the correct format, such as 'mm/dd/yyyy' | 'dd/mm/yyyy' | 'yyyy/mm/dd'")
+        }
+      });
+      return `${str[0]}\/${str[1]}\/${str[2]}`;
     }
     return "";
   }

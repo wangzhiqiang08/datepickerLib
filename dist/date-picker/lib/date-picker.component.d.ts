@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePickerService } from './date-picker.service';
+import { init } from './date-picker.model';
 import * as i0 from "@angular/core";
 export declare class DatePickerComponent implements OnInit {
     private datePickerService;
@@ -19,9 +20,13 @@ export declare class DatePickerComponent implements OnInit {
     isShowDateList: boolean;
     isShowCalendar: boolean;
     private onDateChange;
+    displayStrings: init;
+    selectedFormat: string;
+    currentLanguage: any;
     constructor(datePickerService: DatePickerService, domSanitizer: DomSanitizer);
     ngOnInit(): void;
     initCalendar(options: any): void;
+    checkWeekDayFormat(weekList: string[]): void;
     preMonth(): void;
     nextMonth(): void;
     getDateDidplayFormat(): string;
@@ -38,5 +43,5 @@ export declare class DatePickerComponent implements OnInit {
     gotoCurrentYear(): void;
     closeDateBox(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DatePickerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, {}, { "onDateChange": "onDateChange"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "displayStrings": "displayStrings"; "currentLanguage": "currentLanguage"; }, { "onDateChange": "onDateChange"; }, never, never>;
 }

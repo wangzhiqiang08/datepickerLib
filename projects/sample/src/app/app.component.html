@@ -14,7 +14,15 @@
   </tr>
   <tr>
     <td>birthday:</td>
-    <td><clarity-date-picker (onDateChange)="getDate($event)"></clarity-date-picker></td>
+    <td>
+      <clarity-date-picker [displayStrings]="initDate" (onDateChange)="getDate($event)"></clarity-date-picker>
+    </td>
+  </tr>
+  <tr>
+    <td>graduation date:</td>
+    <td>
+      <clarity-date-picker [currentLanguage]="'zh_CN'" (onDateChange)="getDate($event)"></clarity-date-picker>
+    </td>
   </tr>
 </table>
 
