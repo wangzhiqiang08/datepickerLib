@@ -1,18 +1,29 @@
 #calendar{
   display:inline-block;
   position: relative;
+  .calendarInputBox{
+    display:flex; 
+    justify-content: flex-end; 
+    width: 200px; 
+    height: 24px;
+  }
   #ipt{
     width: 200px;
     border:0;
     height: 24px;
     outline: none;
+    background: none;
   }
   .bottomLine{
     width: 200px;
     height: 1px;
     background-color: rgb(109, 122, 128);
+    position: absolute;
+    top: 20px;
+    left: 0px;
   }
-  .container-box{
+  .container-calendar-box{
+    box-sizing: content-box;
     width: 280px;
     height: 315px;
     background-color: white;

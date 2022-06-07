@@ -29,6 +29,8 @@ export class DatePickerComponent implements OnInit {
   selectedFormat!: string;
   @Input()
   public currentLanguage: any = "en_US";
+  @Input()
+  public calendarWidth: any = 200;
 
   constructor(private datePickerService: DatePickerService, private domSanitizer: DomSanitizer) { }
 
