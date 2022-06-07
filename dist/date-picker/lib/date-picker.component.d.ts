@@ -23,6 +23,7 @@ export declare class DatePickerComponent implements OnInit {
     displayStrings: init;
     selectedFormat: string;
     currentLanguage: any;
+    calendarWidth: any;
     constructor(datePickerService: DatePickerService, domSanitizer: DomSanitizer);
     ngOnInit(): void;
     initCalendar(options: any): void;
@@ -43,5 +44,5 @@ export declare class DatePickerComponent implements OnInit {
     gotoCurrentYear(): void;
     closeDateBox(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DatePickerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "displayStrings": "displayStrings"; "currentLanguage": "currentLanguage"; }, { "onDateChange": "onDateChange"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "displayStrings": "displayStrings"; "currentLanguage": "currentLanguage"; "calendarWidth": "calendarWidth"; }, { "onDateChange": "onDateChange"; }, never, never>;
 }
