@@ -27,6 +27,7 @@ export declare class DatePickerComponent implements OnInit {
     constructor(datePickerService: DatePickerService, domSanitizer: DomSanitizer);
     ngOnInit(): void;
     initCalendar(options: any): void;
+    checkIsHaveThisLang(): boolean;
     checkWeekDayFormat(weekList: string[]): void;
     preMonth(): void;
     nextMonth(): void;

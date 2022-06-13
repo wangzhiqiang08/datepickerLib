@@ -35,6 +35,10 @@ export class DatePickerComponent implements OnInit {
   constructor(private datePickerService: DatePickerService, private domSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+    if (!this.checkIsHaveThisLang()) {
+      this.currentLanguage = "en_US";
+      throw new SyntaxError(`The language ${this.currentLanguage} you setuped cannot supported and the default language will be displayed with 'en_US'`)
+    }
     const initCalendarDate: any = this.displayStrings || (initDate as any)[this.currentLanguage];
     this.selectedFormat = (this.displayStrings && this.displayStrings.selectedFormat) || (initDate as any)[this.currentLanguage].selectedFormat || "en_US";
     this.initCalendar(initCalendarDate);
@@ -53,6 +57,10 @@ export class DatePickerComponent implements OnInit {
     this.currentYear = nowDate.getFullYear();
     this.currentMonth = nowDate.getMonth() + 1;
     this.currentDate = nowDate.getDate();
+  }
+
+  checkIsHaveThisLang() {
+    return initDate.hasOwnProperty(this.currentLanguage);
   }
 
   checkWeekDayFormat(weekList: string[]) {

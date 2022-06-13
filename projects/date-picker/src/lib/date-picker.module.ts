@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { DatePickerComponent } from './date-picker.component';
 import { ClickOutsideDirective } from './listener-picker.directive';
+import { VIPModule, VIPService, VIPLoader, I18nLoader } from '@vmw/ngx-vip';
+import { I18nConfig } from './i18n.config';
 
 
 
@@ -12,11 +13,24 @@ import { ClickOutsideDirective } from './listener-picker.directive';
     ClickOutsideDirective
   ],
   imports: [
-    BrowserModule,
-    CommonModule
+    CommonModule,
+    VIPModule.forRoot({
+      coreLoader: {
+          provide: I18nLoader,
+          useClass: VIPLoader
+      }
+  }),
+  ],
+  providers:[
+    VIPService
   ],
   exports: [
     DatePickerComponent
   ]
 })
-export class DatePickerModule { }
+export class DatePickerModule {
+  constructor(private vipService: VIPService) {
+    // register feature module configuration
+    vipService.registerComponent(I18nConfig);
+  }
+ }
