@@ -10,10 +10,9 @@ export const I18nConfig = {
         PatternCategories.NUMBER,
         PatternCategories.CURRENCIES
     ],
-    host: 'https://g11n-vip-dev-1.eng.vmware.com:8090/',
+    host: 'https://localhost:8091/',
     // By default, the resources of each component are isolated.
     // Please set isolated as false in a shared module.
-    isPseduo: true,
     isolated: false,
     sourceBundles: [ENGLISH]
 };
