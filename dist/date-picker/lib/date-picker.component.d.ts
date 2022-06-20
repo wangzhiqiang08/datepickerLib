@@ -1,11 +1,11 @@
 import { OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { DatePickerService } from './date-picker.service';
 import { init } from './date-picker.model';
+import { LocaleService } from '@vmw/ngx-vip';
 import * as i0 from "@angular/core";
 export declare class DatePickerComponent implements OnInit {
     private datePickerService;
-    private domSanitizer;
+    private localeService;
     weekDayFormat: any;
     defaultDate: any;
     totalCurrentMonthDaysList: any;
@@ -19,12 +19,13 @@ export declare class DatePickerComponent implements OnInit {
     isShowYearList: boolean;
     isShowDateList: boolean;
     isShowCalendar: boolean;
+    currentLanguage: any;
     private onDateChange;
     displayStrings: init;
     selectedFormat: string;
-    currentLanguage: any;
     calendarWidth: any;
-    constructor(datePickerService: DatePickerService, domSanitizer: DomSanitizer);
+    startWithSundayOrMonday: number | string;
+    constructor(datePickerService: DatePickerService, localeService: LocaleService);
     ngOnInit(): void;
     initCalendar(options: any): void;
     checkIsHaveThisLang(): boolean;
@@ -45,5 +46,5 @@ export declare class DatePickerComponent implements OnInit {
     gotoCurrentYear(): void;
     closeDateBox(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DatePickerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "displayStrings": "displayStrings"; "currentLanguage": "currentLanguage"; "calendarWidth": "calendarWidth"; }, { "onDateChange": "onDateChange"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "displayStrings": "displayStrings"; "calendarWidth": "calendarWidth"; "startWithSundayOrMonday": "startWithSundayOrMonday"; }, { "onDateChange": "onDateChange"; }, never, never>;
 }

@@ -1,0 +1,52 @@
+
+<div class="box">
+  <p class="title"> {{'language' | vtranslate}}: </p>
+  <div class="selBox">
+      <select class="select-basic" (change)="setLanguage($event)">
+          <option *ngFor="let language of languages" value="{{language.languageTag}}"
+              selected="{{language.languageTag == selectedLanguage ? 'selected':''}}">{{language.displayName}}
+          </option>
+          <option>Japan</option>
+      </select>
+  </div>
+  <p class="title"> {{'region' | vtranslate}}: </p>
+  <div class="selBox">
+      <select class="select-basic" (change)="setRegion($event)">
+          <option *ngFor="let region of regions" [value]="region[0]"
+              selected="{{region[0] == selectedRegion ? 'selected':''}}">{{region[1]}} ({{region[0]}})</option>
+      </select>
+  </div>
+</div>
+<br/>
+<br/>
+---------------------------------------------------------------------
+<br/>
+<br/>
+<table>
+  <tr>
+    <td>User:</td>
+    <td><input type="text"></td>
+  </tr>
+  <tr>
+    <td>password:</td>
+    <td><input type="text"></td>
+  </tr>
+  <tr>
+    <td>address:</td>
+    <td><input type="text"></td>
+  </tr>
+  <tr>
+    <td>birthday:</td>
+    <td>
+      <clarity-date-picker [displayStrings]="initDate" (onDateChange)="getDate($event)" [calendarWidth]="210"></clarity-date-picker>
+    </td>
+  </tr>
+  <tr>
+    <td>graduation date:</td>
+    <td>
+      <clarity-date-picker [startWithSundayOrMonday]="0" (onDateChange)="getDate($event)" [calendarWidth]="210"></clarity-date-picker>
+    </td>
+  </tr>
+</table>
+
+<div><button>submit</button></div>

@@ -5,7 +5,6 @@ export declare const I18nConfig: {
     version: string;
     i18nScope: PatternCategories[];
     host: string;
-    isPseduo: boolean;
     isolated: boolean;
     sourceBundles: {
         'week.list.sunday': string;

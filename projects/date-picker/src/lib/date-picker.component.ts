@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { DatePickerService } from './date-picker.service';
 import { init, initDate } from './date-picker.model';
+import { LocaleService } from '@vmw/ngx-vip';
 
 @Component({
   selector: 'clarity-date-picker',
@@ -22,17 +22,20 @@ export class DatePickerComponent implements OnInit {
   isShowYearList: boolean = false;
   isShowDateList: boolean = true;
   isShowCalendar: boolean = false;
+  currentLanguage: any = "en_US";
+  
   @Output() 
   private onDateChange = new EventEmitter();
   @Input()
   public displayStrings!: init;
   selectedFormat!: string;
-  @Input()
-  public currentLanguage: any = "en_US";
+  
   @Input()
   public calendarWidth: any = 200;
+  @Input()
+  startWithSundayOrMonday: number | string = 0;
 
-  constructor(private datePickerService: DatePickerService, private domSanitizer: DomSanitizer) { }
+  constructor(private datePickerService: DatePickerService, private localeService: LocaleService) { }
 
   ngOnInit(): void {
     if (!this.checkIsHaveThisLang()) {
@@ -43,9 +46,12 @@ export class DatePickerComponent implements OnInit {
     this.selectedFormat = (this.displayStrings && this.displayStrings.selectedFormat) || (initDate as any)[this.currentLanguage].selectedFormat || "en_US";
     this.initCalendar(initCalendarDate);
     this.selectedDate = null;
-    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
+    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
     this.monthStrList = initCalendarDate.monthStrList;
     this.yearStrList = this.datePickerService.getYearList(this.currentYear);
+    this.localeService.userLocaleChanged.subscribe((item) => {
+      console.log("userLocaleChanged:" + item);
+    })  
   }
 
   initCalendar(options:any){
@@ -73,22 +79,22 @@ export class DatePickerComponent implements OnInit {
   preMonth() {
     if (this.currentMonth > 1) {
       this.currentMonth --;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
     } else if(this.currentMonth == 1) {
       this.currentYear --;
       this.currentMonth = 12;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
     }
   }
 
   nextMonth() {
     if (this.currentMonth < 12) {
       this.currentMonth ++;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
     } else if (this.currentMonth == 12) {
       this.currentYear ++;
       this.currentMonth = 1;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
     }
   }
   
@@ -131,7 +137,7 @@ export class DatePickerComponent implements OnInit {
   clickDateHandel(date: string) {
     let d = (date && Number(date)) || (this.currentDate && Number(this.currentDate));
     let selected = `${d}\/${this.currentMonth}\/${this.currentYear}`;
-    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, selected);
+    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, selected, this.startWithSundayOrMonday);
     this.selectedDate = selected;
     this.isShowCalendar = false;
     this.onDateChange.emit(selected);
@@ -150,14 +156,14 @@ export class DatePickerComponent implements OnInit {
 
   clickMonthHandel(month: number){
     this.currentMonth = month || this.currentMonth;
-    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
+    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
     this.isShowMonthList = !this.isShowMonthList;
     this.isShowDateList = !this.isShowDateList;
   }
 
   clickYearHandel(year: number) {
     this.currentYear = year || this.currentYear;
-    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
+    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
     this.isShowYearList = !this.isShowYearList;
     this.isShowDateList = !this.isShowDateList;
   }
@@ -175,7 +181,7 @@ export class DatePickerComponent implements OnInit {
         return;
       } else {
         this.selectedDate = null;
-        this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate);
+        this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
       }
     }
   }

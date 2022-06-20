@@ -22,7 +22,7 @@ export class DatePickerService {
     return message;
   }
 
-  getTotalMonthList(year: number,month: number,day: number): Array<any> {
+  getTotalMonthList(year: number,month: number,day: number, startWithSundayOrMonday: string | number): Array<any> {
     let dayLists:any = [];
     let calcResult = this.calculate(year, month, day);
     let startWeekDay = calcResult.whichDay;
@@ -30,13 +30,28 @@ export class DatePickerService {
     let previousMonthList = this.getMonthList(calcResult.previousMonthLen);
     let nextMonthList = this.getMonthList(calcResult.nextMonthLen);
 
-    if(startWeekDay == 0) {
-      dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
+    if (startWithSundayOrMonday == 1 || startWithSundayOrMonday == "1") {
+      if(startWeekDay == 1) {
+        dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
+      } else if (startWeekDay == 0) {
+        let previousMonthSlice = previousMonthList.slice(-6, previousMonthList.length);
+        dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
+      } else {
+        let previousMonthSlice = previousMonthList.slice(-startWeekDay+1, previousMonthList.length);
+        dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
+      }
+      return dayLists;
+    } else if (startWithSundayOrMonday == 0 || startWithSundayOrMonday == "0") {
+      if(startWeekDay == 0) {
+        dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
+      } else {
+        let previousMonthSlice = previousMonthList.slice(-startWeekDay, previousMonthList.length);
+        dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
+      }
+      return dayLists;
     } else {
-      let previousMonthSlice = previousMonthList.slice(-startWeekDay, previousMonthList.length);
-      dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
+      throw new SyntaxError("The key of 'startWithSundayOrMonday' 's value must be 0 or 1. ");
     }
-    return dayLists;
   }
 
   getMonthList(monthLength: number): Array<any> {
@@ -47,8 +62,8 @@ export class DatePickerService {
     return list;
   }
 
-  setEveryDateStatus(year: number,month: number,day: number, selectedDate: string | null): Array<number> {
-    let totalDates: any = this.getTotalMonthList(year, month, day);
+  setEveryDateStatus(year: number,month: number,day: number, selectedDate: string | null, startWithSundayOrMonday: string | number): Array<number> {
+    let totalDates: any = this.getTotalMonthList(year, month, day, startWithSundayOrMonday);
     let now = new Date();
     let currentDate = now.getDate();
     let currentMonth = now.getMonth() + 1;
@@ -63,7 +78,7 @@ export class DatePickerService {
     } else {
       totalDates = totalDates.map((date: any, index: any) => {
         let isToday = (date === currentDate) && (month === currentMonth) && (year === currentYear);
-        let isSelected = (date === Number(selected[0])) && (month === Number(selected[1])) && (year === Number(selected[2])) && this.isCurrentMontDate(totalDates, index+1);
+        let isSelected = (date === Number(selected[0])) && (month === Number(selected[1])) && (year === Number(selected[2])) && this.isCurrentMonthDate(totalDates, index+1);
         return {date: date, isToday: isToday, isSelected: isSelected, isCurrentMonth: null}
       })
       totalDates = this.filterAndSetCurrentMonthDate(totalDates);
@@ -90,7 +105,7 @@ export class DatePickerService {
     }
   }
   
-  isCurrentMontDate(totalDates: Array<number>, index: number) {
+  isCurrentMonthDate(totalDates: Array<number>, index: number) {
     let currentMonthStart: number, currentMonthEnd: number, includes: any[] = [];
     totalDates.forEach((el:any, i: any) => (el === 1 || el === "1") && includes.push(i));
     currentMonthStart = includes[0];

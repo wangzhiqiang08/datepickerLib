@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DatePickerComponent } from './date-picker.component';
 import { ClickOutsideDirective } from './listener-picker.directive';
-import { VIPModule, VIPService, VIPLoader, I18nLoader } from '@vmw/ngx-vip';
+import { VIPModule, VIPService, VIPLoader, I18nLoader, LocaleService } from '@vmw/ngx-vip';
 import { I18nConfig } from './i18n.config';
 
 
@@ -22,7 +22,8 @@ import { I18nConfig } from './i18n.config';
   }),
   ],
   providers:[
-    VIPService
+    VIPService,
+    LocaleService
   ],
   exports: [
     DatePickerComponent
