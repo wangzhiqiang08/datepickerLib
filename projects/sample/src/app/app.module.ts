@@ -23,7 +23,7 @@ export function initVIPConfig(service: VIPService, localeService: LocaleService)
         PatternCategories.CURRENCIES
      ],
      host: 'https://localhost:8091/',
-     isPseudo: true,
+     isPseudo: false,
      collectSource: false,
      sourceBundle: ENGLISH,
      timeout: 5000

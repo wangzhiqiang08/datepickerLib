@@ -39,12 +39,12 @@ export class TestComponent implements OnInit {
     constructor(private i18nService: I18nService, private l10nService: L10nService, private vipService: VIPService, private localeService: LocaleService) {}
 
   ngOnInit() {
-    this.subscription = this.l10nService.stream.subscribe((locale: string) => {
-        this.translation = this.l10nService.getMessage('l10n', locale);
-        console.log(this.translation)
-    });
+    // this.subscription = this.l10nService.stream.subscribe((locale: string) => {
+    //     this.translation = this.l10nService.getMessage('l10n', locale);
+    //     console.log(this.translation)
+    // });
     this.selectedLanguage = this.localeService.getCurrentLanguage();
-    this.selectedRegion = this.localeService.getCurrentRegion();
+    // this.selectedRegion = this.localeService.getCurrentRegion();
 
     this.getLanguages();
     this.getRegions(this.selectedLanguage);
@@ -52,6 +52,11 @@ export class TestComponent implements OnInit {
         languages: this.languages,
         regions: this.regions
     };
+    
+  }
+  ngAfterViewInit() {
+    this.localeService.setCurrentRegion('fr');
+    this.selectedRegion = this.localeService.getCurrentRegion();
   }
   switchDrawer() {
       this.showDrawer = !this.showDrawer;

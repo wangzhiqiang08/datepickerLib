@@ -50,6 +50,13 @@ export class DatePickerComponent implements OnInit {
     this.monthStrList = initCalendarDate.monthStrList;
     this.yearStrList = this.datePickerService.getYearList(this.currentYear);
     this.localeService.userLocaleChanged.subscribe((item) => {
+      if (item == 'es-US') {
+        this.startWithSundayOrMonday = 0;
+        this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+      } else {
+        this.startWithSundayOrMonday = 1;
+        this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+      }
       console.log("userLocaleChanged:" + item);
     })  
   }

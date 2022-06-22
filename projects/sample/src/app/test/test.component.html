@@ -3,8 +3,11 @@
   <p class="title"> {{'language' | vtranslate}}: </p>
   <div class="selBox">
       <select class="select-basic" (change)="setLanguage($event)">
-          <option *ngFor="let language of languages" value="{{language.languageTag}}"
+          <!-- <option *ngFor="let language of languages" value="{{language.languageTag}}"
               selected="{{language.languageTag == selectedLanguage ? 'selected':''}}">{{language.displayName}}
+          </option> -->
+          <option *ngFor="let language of languages" value="{{language.languageTag}}"
+              selected="{{'selected'}}">{{language.displayName}}
           </option>
           <option>Japan</option>
       </select>
@@ -14,6 +17,7 @@
       <select class="select-basic" (change)="setRegion($event)">
           <option *ngFor="let region of regions" [value]="region[0]"
               selected="{{region[0] == selectedRegion ? 'selected':''}}">{{region[1]}} ({{region[0]}})</option>
+              <option value="fr">fr</option>
       </select>
   </div>
 </div>
@@ -44,7 +48,7 @@
   <tr>
     <td>graduation date:</td>
     <td>
-      <clarity-date-picker [startWithSundayOrMonday]="0" (onDateChange)="getDate($event)" [calendarWidth]="210"></clarity-date-picker>
+      <clarity-date-picker (onDateChange)="getDate($event)" [calendarWidth]="210"></clarity-date-picker>
     </td>
   </tr>
 </table>
