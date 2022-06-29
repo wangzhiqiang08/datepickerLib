@@ -1,11 +1,12 @@
 import { OnInit } from '@angular/core';
 import { DatePickerService } from './date-picker.service';
 import { init } from './date-picker.model';
-import { LocaleService } from '@vmw/ngx-vip';
+import { LocaleService, I18nService } from '@vmw/ngx-vip';
 import * as i0 from "@angular/core";
 export declare class DatePickerComponent implements OnInit {
     private datePickerService;
     private localeService;
+    private i18nService;
     weekDayFormat: any;
     defaultDate: any;
     totalCurrentMonthDaysList: any;
@@ -20,19 +21,20 @@ export declare class DatePickerComponent implements OnInit {
     isShowDateList: boolean;
     isShowCalendar: boolean;
     currentLanguage: any;
+    firstDayOfWeek: any;
     private onDateChange;
     displayStrings: init;
     selectedFormat: string;
     calendarWidth: any;
     startWithSundayOrMonday: number | string;
-    constructor(datePickerService: DatePickerService, localeService: LocaleService);
+    constructor(datePickerService: DatePickerService, localeService: LocaleService, i18nService: I18nService);
     ngOnInit(): void;
     initCalendar(options: any): void;
     checkIsHaveThisLang(): boolean;
     checkWeekDayFormat(weekList: string[]): void;
     preMonth(): void;
     nextMonth(): void;
-    getDateDidplayFormat(): string;
+    getDateDisplayFormat(): string;
     showCalendar(): void;
     hideCalendar(): void;
     clickDateHandel(date: string): void;

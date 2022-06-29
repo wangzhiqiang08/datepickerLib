@@ -1,7 +1,7 @@
 <div id="calendar" (clickOutside)="closeDateBox()" [style.width]="calendarWidth + 'px'">
   <div class="calendarInputBox" [style.width]="calendarWidth + 'px'">
     <div style="display:flex; flex-direction: column;">
-      <input type="text" id='ipt' [style.width]="calendarWidth + 'px'" value="{{getDateDidplayFormat()}}" readonly>
+      <input type="text" id='ipt' [style.width]="calendarWidth + 'px'" value="{{getDateDisplayFormat() | dateFormat:'shortDate'}}" readonly>
       <div  class="bottomLine" [style.width]="calendarWidth + 'px'"></div>
     </div>
     

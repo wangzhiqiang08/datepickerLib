@@ -9,7 +9,8 @@
           <option *ngFor="let language of languages" value="{{language.languageTag}}"
               selected="{{'selected'}}">{{language.displayName}}
           </option>
-          <option>Japan</option>
+          <option value="ja">Japan</option>
+          <option value="zh-cn">Chinese</option>
       </select>
   </div>
   <p class="title"> {{'region' | vtranslate}}: </p>
@@ -42,7 +43,7 @@
   <tr>
     <td>birthday:</td>
     <td>
-      <clarity-date-picker [displayStrings]="initDate" (onDateChange)="getDate($event)" [calendarWidth]="210"></clarity-date-picker>
+      <clarity-date-picker (onDateChange)="getDate($event)" [calendarWidth]="210"></clarity-date-picker>
     </td>
   </tr>
   <tr>

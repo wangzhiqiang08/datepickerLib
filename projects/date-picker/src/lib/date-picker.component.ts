@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePickerService } from './date-picker.service';
 import { init, initDate } from './date-picker.model';
-import { LocaleService } from '@vmw/ngx-vip';
+import { LocaleService, I18nService } from '@vmw/ngx-vip';
 
 @Component({
   selector: 'clarity-date-picker',
@@ -23,6 +23,7 @@ export class DatePickerComponent implements OnInit {
   isShowDateList: boolean = true;
   isShowCalendar: boolean = false;
   currentLanguage: any = "en_US";
+  firstDayOfWeek: any;
   
   @Output() 
   private onDateChange = new EventEmitter();
@@ -35,7 +36,7 @@ export class DatePickerComponent implements OnInit {
   @Input()
   startWithSundayOrMonday: number | string = 0;
 
-  constructor(private datePickerService: DatePickerService, private localeService: LocaleService) { }
+  constructor(private datePickerService: DatePickerService, private localeService: LocaleService, private i18nService: I18nService) { }
 
   ngOnInit(): void {
     if (!this.checkIsHaveThisLang()) {
@@ -49,15 +50,13 @@ export class DatePickerComponent implements OnInit {
     this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
     this.monthStrList = initCalendarDate.monthStrList;
     this.yearStrList = this.datePickerService.getYearList(this.currentYear);
-    this.localeService.userLocaleChanged.subscribe((item) => {
-      if (item == 'es-US') {
-        this.startWithSundayOrMonday = 0;
-        this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
-      } else {
-        this.startWithSundayOrMonday = 1;
-        this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
-      }
-      console.log("userLocaleChanged:" + item);
+    
+    this.localeService.userLocaleChanged.subscribe((locale) => {
+      const localeDate = this.i18nService.resolveLocaleData(locale);
+      this.firstDayOfWeek = localeDate && localeDate.dates.firstDayOfWeek ? localeDate.dates.firstDayOfWeek : 0;
+      this.startWithSundayOrMonday = this.firstDayOfWeek;
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+      console.log("userLocaleChanged:" + locale);
     })  
   }
 
@@ -105,7 +104,7 @@ export class DatePickerComponent implements OnInit {
     }
   }
   
-  getDateDidplayFormat() {
+  getDateDisplayFormat() {
     if(!(/\//g.test(this.selectedFormat))) {
       throw new SyntaxError("The delimiter for the time format should be '/' ");
     }
