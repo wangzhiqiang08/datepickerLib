@@ -29,6 +29,7 @@ export declare class DatePickerComponent implements OnInit {
     startWithSundayOrMonday: number | string;
     constructor(datePickerService: DatePickerService, localeService: LocaleService, i18nService: I18nService);
     ngOnInit(): void;
+    localeChangedHandel(): void;
     initCalendar(options: any): void;
     checkIsHaveThisLang(): boolean;
     checkWeekDayFormat(weekList: string[]): void;

@@ -51,6 +51,10 @@ export class DatePickerComponent implements OnInit {
     this.monthStrList = initCalendarDate.monthStrList;
     this.yearStrList = this.datePickerService.getYearList(this.currentYear);
     
+    this.localeChangedHandel();
+  }
+
+  localeChangedHandel() {
     this.localeService.userLocaleChanged.subscribe((locale) => {
       const localeDate = this.i18nService.resolveLocaleData(locale);
       this.firstDayOfWeek = localeDate && localeDate.dates.firstDayOfWeek ? localeDate.dates.firstDayOfWeek : 0;
