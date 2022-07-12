@@ -44,7 +44,7 @@ export class TestComponent implements OnInit {
     //     console.log(this.translation)
     // });
     this.selectedLanguage = this.localeService.getCurrentLanguage();
-    // this.selectedRegion = this.localeService.getCurrentRegion();
+    this.selectedRegion = this.localeService.getCurrentRegion();
 
     this.getLanguages();
     this.getRegions(this.selectedLanguage);
@@ -55,7 +55,7 @@ export class TestComponent implements OnInit {
     
   }
   ngAfterViewInit() {
-    this.localeService.setCurrentRegion('fr');
+    this.localeService.setCurrentRegion('ES');
     this.selectedRegion = this.localeService.getCurrentRegion();
   }
   switchDrawer() {

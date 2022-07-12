@@ -1,19 +1,18 @@
 import { OnInit } from '@angular/core';
 import { DatePickerService } from './date-picker.service';
 import { init } from './date-picker.model';
-import { LocaleService, I18nService } from '@vmw/ngx-vip';
+import { LocaleService, I18nService, VIPService } from '@vmw/ngx-vip';
 import * as i0 from "@angular/core";
 export declare class DatePickerComponent implements OnInit {
     private datePickerService;
     private localeService;
     private i18nService;
-    weekDayFormat: any;
+    private VIPService;
     defaultDate: any;
     totalCurrentMonthDaysList: any;
     currentYear: number;
     currentMonth: number;
     currentDate: number;
-    monthStrList: any;
     yearStrList: any;
     selectedDate: any;
     isShowMonthList: boolean;
@@ -21,18 +20,15 @@ export declare class DatePickerComponent implements OnInit {
     isShowDateList: boolean;
     isShowCalendar: boolean;
     currentLanguage: any;
-    firstDayOfWeek: any;
     private onDateChange;
     displayStrings: init;
     selectedFormat: string;
     calendarWidth: any;
-    startWithSundayOrMonday: number | string;
-    constructor(datePickerService: DatePickerService, localeService: LocaleService, i18nService: I18nService);
+    startDay: number | string;
+    constructor(datePickerService: DatePickerService, localeService: LocaleService, i18nService: I18nService, VIPService: VIPService);
     ngOnInit(): void;
     localeChangedHandel(): void;
-    initCalendar(options: any): void;
-    checkIsHaveThisLang(): boolean;
-    checkWeekDayFormat(weekList: string[]): void;
+    initCalendar(): void;
     preMonth(): void;
     nextMonth(): void;
     getDateDisplayFormat(): string;
@@ -49,5 +45,5 @@ export declare class DatePickerComponent implements OnInit {
     gotoCurrentYear(): void;
     closeDateBox(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DatePickerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "displayStrings": "displayStrings"; "calendarWidth": "calendarWidth"; "startWithSundayOrMonday": "startWithSundayOrMonday"; }, { "onDateChange": "onDateChange"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "displayStrings": "displayStrings"; "calendarWidth": "calendarWidth"; "startDay": "startDay"; }, { "onDateChange": "onDateChange"; }, never, never>;
 }

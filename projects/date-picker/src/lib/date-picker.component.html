@@ -25,7 +25,7 @@
     </svg>
   </div>
   
-  <div  *ngIf="weekDayFormat && weekDayFormat.length == 7" class="container-calendar-box" [style.display]="isShowCalendar ? 'block' : 'none' ">
+  <div class="container-calendar-box" [style.display]="isShowCalendar ? 'block' : 'none' ">
     <div [style.display]="isShowDateList ? 'block' : 'none'">
       <div class="month-year-change">
         <div class="month-year-display">
@@ -70,14 +70,16 @@
       <div class="day-list" id="myTable">
         <div class="weekDayList">
           <!-- <span *ngFor="let weekDay of weekDayFormat">{{weekDay}}</span> -->
-          <span [style.display]="(startWithSundayOrMonday == 0 || startWithSundayOrMonday == '0') ? 'inline-block' : 'none'">{{'week.list.sunday' | vtranslate}}</span>
+          <span [style.display]="(startDay == 5) ? 'inline-block' : 'none'">{{'week.list.friday' | vtranslate}}</span>
+          <span [style.display]="(startDay == 6 || startDay == 5) ? 'inline-block' : 'none'">{{'week.list.saturday' | vtranslate}}</span>
+          <span [style.display]="(startDay == 0 || startDay == 6 || startDay == 5) ? 'inline-block' : 'none'">{{'week.list.sunday' | vtranslate}}</span>
           <span>{{'week.list.monday' | vtranslate}}</span>
           <span>{{'week.list.tuesday' | vtranslate}}</span>
           <span>{{'week.list.wednesday' | vtranslate}}</span>
           <span>{{'week.list.thursday' | vtranslate}}</span>
-          <span>{{'week.list.friday' | vtranslate}}</span>
-          <span>{{'week.list.saturday' | vtranslate}}</span>
-          <span [style.display]="(startWithSundayOrMonday == 1 || startWithSundayOrMonday == '1') ? 'inline-block' : 'none'">{{'week.list.sunday' | vtranslate}}</span>
+          <span [style.display]="(startDay == 5) ? 'none' : 'inline-block'">{{'week.list.friday' | vtranslate}}</span>
+          <span [style.display]="(startDay == 6 || startDay == 5) ? 'none' : 'inline-block'">{{'week.list.saturday' | vtranslate}}</span>
+          <span [style.display]="(startDay == 1) ? 'inline-block' : 'none'">{{'week.list.sunday' | vtranslate}}</span>
         </div>
         <div class="dayBox">
           <div class="row-list">

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePickerService } from './date-picker.service';
 import { init, initDate } from './date-picker.model';
-import { LocaleService, I18nService } from '@vmw/ngx-vip';
+import { LocaleService, I18nService, VIPService } from '@vmw/ngx-vip';
 
 @Component({
   selector: 'clarity-date-picker',
@@ -9,13 +9,11 @@ import { LocaleService, I18nService } from '@vmw/ngx-vip';
   styleUrls: ['./date-picker.component.scss']
 })
 export class DatePickerComponent implements OnInit {
-  weekDayFormat: any;
   defaultDate: any;
   totalCurrentMonthDaysList: any;
   currentYear!: number;
   currentMonth!: number;
   currentDate!: number;
-  monthStrList!: any;
   yearStrList!: any;
   selectedDate!: any;
   isShowMonthList: boolean = false;
@@ -23,7 +21,6 @@ export class DatePickerComponent implements OnInit {
   isShowDateList: boolean = true;
   isShowCalendar: boolean = false;
   currentLanguage: any = "en_US";
-  firstDayOfWeek: any;
   
   @Output() 
   private onDateChange = new EventEmitter();
@@ -34,77 +31,55 @@ export class DatePickerComponent implements OnInit {
   @Input()
   public calendarWidth: any = 200;
   @Input()
-  startWithSundayOrMonday: number | string = 0;
+  startDay: number | string = 0;
 
-  constructor(private datePickerService: DatePickerService, private localeService: LocaleService, private i18nService: I18nService) { }
+  constructor(private datePickerService: DatePickerService, private localeService: LocaleService, private i18nService: I18nService, private VIPService: VIPService) { }
 
   ngOnInit(): void {
-    if (!this.checkIsHaveThisLang()) {
-      this.currentLanguage = "en_US";
-      throw new SyntaxError(`The language ${this.currentLanguage} you setuped cannot supported and the default language will be displayed with 'en_US'`)
-    }
-    const initCalendarDate: any = this.displayStrings || (initDate as any)[this.currentLanguage];
-    this.selectedFormat = (this.displayStrings && this.displayStrings.selectedFormat) || (initDate as any)[this.currentLanguage].selectedFormat || "en_US";
-    this.initCalendar(initCalendarDate);
-    this.selectedDate = null;
-    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
-    this.monthStrList = initCalendarDate.monthStrList;
-    this.yearStrList = this.datePickerService.getYearList(this.currentYear);
     
+    this.initCalendar();
+    this.selectedDate = null;
+    this.yearStrList = this.datePickerService.getYearList(this.currentYear);
     this.localeChangedHandel();
   }
 
   localeChangedHandel() {
-    this.localeService.userLocaleChanged.subscribe((locale) => {
-      const localeDate = this.i18nService.resolveLocaleData(locale);
-      this.firstDayOfWeek = localeDate && localeDate.dates.firstDayOfWeek ? localeDate.dates.firstDayOfWeek : 0;
-      this.startWithSundayOrMonday = this.firstDayOfWeek;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
-      console.log("userLocaleChanged:" + locale);
+    this.localeService.userLocaleChanged.subscribe(async (locale) => {
+      await this.VIPService.loadLocaleData();
+      const localeData = this.i18nService.resolveLocaleData(locale)
+      this.startDay = localeData && localeData.dates.firstDayOfWeek ? Number(localeData.dates.firstDayOfWeek) : 0;
+      this.selectedFormat = localeData && localeData.dates.dateFormats.short ? localeData.dates.dateFormats.short : 'dd/mm/yyyy';
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
+      console.log('firstDayOfWeek:' + this.startDay ,"userLocalechanged:" + locale);
     })  
   }
 
-  initCalendar(options:any){
-    this.weekDayFormat = options.weekDayFormat;
-    if (options.weekDayFormat.length != 7) {
-      throw SyntaxError("You cannot set a weekdayList with a length less than 7.");
-    }
+  initCalendar(){
     let nowDate = new Date()
     this.currentYear = nowDate.getFullYear();
     this.currentMonth = nowDate.getMonth() + 1;
     this.currentDate = nowDate.getDate();
   }
 
-  checkIsHaveThisLang() {
-    return initDate.hasOwnProperty(this.currentLanguage);
-  }
-
-  checkWeekDayFormat(weekList: string[]) {
-    let isCorrentFormat: boolean;
-    if (weekList.length != 7) {
-      throw SyntaxError("You cannot set a weekdayList with a length less than 7.");
-    }
-  }
-
   preMonth() {
     if (this.currentMonth > 1) {
       this.currentMonth --;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
     } else if(this.currentMonth == 1) {
       this.currentYear --;
       this.currentMonth = 12;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
     }
   }
 
   nextMonth() {
     if (this.currentMonth < 12) {
       this.currentMonth ++;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
     } else if (this.currentMonth == 12) {
       this.currentYear ++;
       this.currentMonth = 1;
-      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+      this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
     }
   }
   
@@ -147,7 +122,7 @@ export class DatePickerComponent implements OnInit {
   clickDateHandel(date: string) {
     let d = (date && Number(date)) || (this.currentDate && Number(this.currentDate));
     let selected = `${d}\/${this.currentMonth}\/${this.currentYear}`;
-    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, selected, this.startWithSundayOrMonday);
+    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, selected, this.startDay);
     this.selectedDate = selected;
     this.isShowCalendar = false;
     this.onDateChange.emit(selected);
@@ -166,14 +141,14 @@ export class DatePickerComponent implements OnInit {
 
   clickMonthHandel(month: number){
     this.currentMonth = month || this.currentMonth;
-    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
     this.isShowMonthList = !this.isShowMonthList;
     this.isShowDateList = !this.isShowDateList;
   }
 
   clickYearHandel(year: number) {
     this.currentYear = year || this.currentYear;
-    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
+    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
     this.isShowYearList = !this.isShowYearList;
     this.isShowDateList = !this.isShowDateList;
   }
@@ -186,14 +161,7 @@ export class DatePickerComponent implements OnInit {
     this.currentYear = year;
     this.currentMonth = month;
     this.currentDate = date;
-    if (this.selectedDate) {
-      if (Number(this.selectedDate.split('/')[1]) == this.currentMonth) {
-        return;
-      } else {
-        this.selectedDate = null;
-        this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startWithSundayOrMonday);
-      }
-    }
+    this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
   }
 
   preMonthList() {

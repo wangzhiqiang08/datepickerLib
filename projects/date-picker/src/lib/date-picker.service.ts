@@ -1,3 +1,4 @@
+import { WeekDay } from '@angular/common';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -22,7 +23,7 @@ export class DatePickerService {
     return message;
   }
 
-  getTotalMonthList(year: number,month: number,day: number, startWithSundayOrMonday: string | number): Array<any> {
+  getTotalMonthList(year: number,month: number,day: number, startDay: string | number): Array<any> {
     let dayLists:any = [];
     let calcResult = this.calculate(year, month, day);
     let startWeekDay = calcResult.whichDay;
@@ -30,27 +31,57 @@ export class DatePickerService {
     let previousMonthList = this.getMonthList(calcResult.previousMonthLen);
     let nextMonthList = this.getMonthList(calcResult.nextMonthLen);
 
-    if (startWithSundayOrMonday == 1 || startWithSundayOrMonday == "1") {
-      if(startWeekDay == 1) {
+    // if (startDay == 1) {
+    //   if(startWeekDay == 1) {
+    //     dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
+    //   } else if (startWeekDay == 0) {
+    //     let previousMonthSlice = previousMonthList.slice(-6, previousMonthList.length);
+    //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
+    //   } else {
+    //     let previousMonthSlice = previousMonthList.slice(-startWeekDay+1, previousMonthList.length);
+    //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
+    //   }
+    //   return dayLists;
+    // } else if (startDay == 0) {
+    //   if(startWeekDay == 0) {
+    //     dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
+    //   } else {
+    //     let previousMonthSlice = previousMonthList.slice(-startWeekDay, previousMonthList.length);
+    //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
+    //   }
+    //   return dayLists;
+    // } else 
+
+    if (startDay == 5 || startDay == 6 || startDay == 0 || startDay == 1){
+      if (startWeekDay ==  startDay) {
         dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
-      } else if (startWeekDay == 0) {
+      } else if ((startWeekDay == 4 && startDay == 5)|| (startWeekDay == 5 && startDay == 6)|| (startWeekDay == 0 && startDay == 1) || (startWeekDay == 6 && startDay == 0)) {
         let previousMonthSlice = previousMonthList.slice(-6, previousMonthList.length);
         dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
       } else {
-        let previousMonthSlice = previousMonthList.slice(-startWeekDay+1, previousMonthList.length);
+        let sliceStart;
+        switch (startDay) {
+          case 0:
+            sliceStart = -startWeekDay;
+            break;
+          case 1:
+            sliceStart = -startWeekDay + 1;
+            break;
+          case 5:
+            sliceStart = -(startWeekDay + 2);
+            break;
+          case 6:
+            sliceStart = -(startWeekDay + 1);
+            break;
+          default:
+            break;
+        }
+        let previousMonthSlice = previousMonthList.slice(sliceStart, previousMonthList.length);
         dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
       }
-      return dayLists;
-    } else if (startWithSundayOrMonday == 0 || startWithSundayOrMonday == "0") {
-      if(startWeekDay == 0) {
-        dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
-      } else {
-        let previousMonthSlice = previousMonthList.slice(-startWeekDay, previousMonthList.length);
-        dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
-      }
-      return dayLists;
+      return dayLists
     } else {
-      throw new SyntaxError("The key of 'startWithSundayOrMonday' 's value must be 0 or 1. ");
+      throw new SyntaxError("The key of 'startDay' 's value must be 0/1/5/6. ");
     }
   }
 

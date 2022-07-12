@@ -22,7 +22,7 @@ export function initVIPConfig(service: VIPService, localeService: LocaleService)
         PatternCategories.NUMBER,
         PatternCategories.CURRENCIES
      ],
-     host: 'https://localhost:8091/',
+     host: 'https://g11n-vip-dev-1.eng.vmware.com:8090/',
      isPseudo: false,
      collectSource: false,
      sourceBundle: ENGLISH,
