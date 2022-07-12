@@ -26,7 +26,7 @@ export class DatePickerComponent implements OnInit {
   private onDateChange = new EventEmitter();
   @Input()
   public displayStrings!: init;
-  selectedFormat!: string;
+  selectedFormat: string = 'mm/dd/yyyy';
   
   @Input()
   public calendarWidth: any = 200;
@@ -36,7 +36,6 @@ export class DatePickerComponent implements OnInit {
   constructor(private datePickerService: DatePickerService, private localeService: LocaleService, private i18nService: I18nService, private VIPService: VIPService) { }
 
   ngOnInit(): void {
-    
     this.initCalendar();
     this.selectedDate = null;
     this.yearStrList = this.datePickerService.getYearList(this.currentYear);
@@ -48,7 +47,7 @@ export class DatePickerComponent implements OnInit {
       await this.VIPService.loadLocaleData();
       const localeData = this.i18nService.resolveLocaleData(locale)
       this.startDay = localeData && localeData.dates.firstDayOfWeek ? Number(localeData.dates.firstDayOfWeek) : 0;
-      this.selectedFormat = localeData && localeData.dates.dateFormats.short ? localeData.dates.dateFormats.short : 'dd/mm/yyyy';
+      // this.selectedFormat = localeData && localeData.dates.dateFormats.short ? localeData.dates.dateFormats.short : 'dd/mm/yyyy';
       this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
       console.log('firstDayOfWeek:' + this.startDay ,"userLocalechanged:" + locale);
     })  

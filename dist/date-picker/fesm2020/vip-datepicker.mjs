@@ -211,6 +211,7 @@ class DatePickerComponent {
         this.isShowCalendar = false;
         this.currentLanguage = "en_US";
         this.onDateChange = new EventEmitter();
+        this.selectedFormat = 'mm/dd/yyyy';
         this.calendarWidth = 200;
         this.startDay = 0;
     }
@@ -225,7 +226,7 @@ class DatePickerComponent {
             await this.VIPService.loadLocaleData();
             const localeData = this.i18nService.resolveLocaleData(locale);
             this.startDay = localeData && localeData.dates.firstDayOfWeek ? Number(localeData.dates.firstDayOfWeek) : 0;
-            this.selectedFormat = localeData && localeData.dates.dateFormats.short ? localeData.dates.dateFormats.short : 'dd/mm/yyyy';
+            // this.selectedFormat = localeData && localeData.dates.dateFormats.short ? localeData.dates.dateFormats.short : 'dd/mm/yyyy';
             this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
             console.log('firstDayOfWeek:' + this.startDay, "userLocalechanged:" + locale);
         });
