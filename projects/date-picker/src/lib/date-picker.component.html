@@ -1,7 +1,7 @@
 <div id="calendar" (clickOutside)="closeDateBox()" [style.width]="calendarWidth + 'px'">
   <div class="calendarInputBox" [style.width]="calendarWidth + 'px'">
     <div style="display:flex; flex-direction: column;">
-      <input type="text" id='ipt' [style.width]="calendarWidth + 'px'" value="{{getDateDisplayFormat() | dateFormat:'shortDate'}}" readonly>
+      <input type="text" id='ipt' [style.width]="calendarWidth + 'px'" value="{{selectedDate | dateFormat:'shortDate'}}" readonly>
       <div  class="bottomLine" [style.width]="calendarWidth + 'px'"></div>
     </div>
     
@@ -30,6 +30,7 @@
       <div class="month-year-change">
         <div class="month-year-display">
           <!-- <span (click)="showMonthList()">{{monthStrList[currentMonth-1].short}}</span> -->
+          <span [style.display]="isYearShowAtLeft ? 'inline-block' : 'none'" (click)="showYearList()">{{currentYear}}</span>
           <span (click)="showMonthList()" *ngIf="currentMonth == 1">{{'month.list.short.jan' | vtranslate}}</span>
           <span (click)="showMonthList()" *ngIf="currentMonth == 2">{{'month.list.short.feb' | vtranslate}}</span>
           <span (click)="showMonthList()" *ngIf="currentMonth == 3">{{'month.list.short.mar' | vtranslate}}</span>
@@ -42,7 +43,7 @@
           <span (click)="showMonthList()" *ngIf="currentMonth == 10">{{'month.list.short.oct' | vtranslate}}</span>
           <span (click)="showMonthList()" *ngIf="currentMonth == 11">{{'month.list.short.nov' | vtranslate}}</span>
           <span (click)="showMonthList()" *ngIf="currentMonth == 12">{{'month.list.short.dec' | vtranslate}}</span>
-          <span (click)="showYearList()">{{currentYear}}</span>
+          <span [style.display]="!isYearShowAtLeft ? 'inline-block' : 'none'" (click)="showYearList()">{{currentYear}}</span>
         </div>
         <div class="change-button">
           <span (click)="preMonth()">

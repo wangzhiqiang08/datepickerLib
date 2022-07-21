@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePickerService } from './date-picker.service';
-import { init, initDate } from './date-picker.model';
+import { init } from './date-picker.model';
 import { LocaleService, I18nService, VIPService } from '@vmw/ngx-vip';
 
 @Component({
@@ -20,13 +20,12 @@ export class DatePickerComponent implements OnInit {
   isShowYearList: boolean = false;
   isShowDateList: boolean = true;
   isShowCalendar: boolean = false;
-  currentLanguage: any = "en_US";
+  isYearShowAtLeft!: boolean;
   
   @Output() 
   private onDateChange = new EventEmitter();
   @Input()
   public displayStrings!: init;
-  selectedFormat: string = 'mm/dd/yyyy';
   
   @Input()
   public calendarWidth: any = 200;
@@ -47,7 +46,8 @@ export class DatePickerComponent implements OnInit {
       await this.VIPService.loadLocaleData();
       const localeData = this.i18nService.resolveLocaleData(locale)
       this.startDay = localeData && localeData.dates.firstDayOfWeek ? Number(localeData.dates.firstDayOfWeek) : 0;
-      // this.selectedFormat = localeData && localeData.dates.dateFormats.short ? localeData.dates.dateFormats.short : 'dd/mm/yyyy';
+      const dateFormat = localeData && localeData.dates.dateFormats.short ? localeData.dates.dateFormats.short : 'mm/dd/yyyy';
+      this.yearAndMonthBtnDisplayOrder(dateFormat);
       this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
       console.log('firstDayOfWeek:' + this.startDay ,"userLocalechanged:" + locale);
     })  
@@ -58,6 +58,14 @@ export class DatePickerComponent implements OnInit {
     this.currentYear = nowDate.getFullYear();
     this.currentMonth = nowDate.getMonth() + 1;
     this.currentDate = nowDate.getDate();
+  }
+
+  yearAndMonthBtnDisplayOrder(dateFormat: string){
+    if((dateFormat.indexOf('y') || dateFormat.indexOf('Y')) > (dateFormat.indexOf('m') || dateFormat.indexOf('M'))) {
+      this.isYearShowAtLeft = false;
+    } else {
+      this.isYearShowAtLeft = true;
+    }
   }
 
   preMonth() {
@@ -82,33 +90,30 @@ export class DatePickerComponent implements OnInit {
     }
   }
   
-  getDateDisplayFormat() {
-    if(!(/\//g.test(this.selectedFormat))) {
-      throw new SyntaxError("The delimiter for the time format should be '/' ");
-    }
-    if(this.selectedDate && this.selectedFormat) {
-      let selected: any = this.selectedDate.split("/");
-      let formatList = this.selectedFormat.split("/");
-      let str: any = [];
-      let selDay = selected[0];
-      let selMonth = selected[1];
-      let selYear = selected[2];
+  // getDateDisplayFormat() {
+  //   if(this.selectedDate) {
+  //     let selected: any = this.selectedDate.split("/");
+      // let formatList = .split("/");
+      // let str: any = [];
+      // let selDay = selected[0];
+      // let selMonth = selected[1];
+      // let selYear = selected[2];
 
-      formatList && formatList.forEach(item => {
-        if (item.toLowerCase() === 'dd') {
-          str.push(selDay.length == 1 ? `0${selDay}` : selDay);
-        } else if(item.toLowerCase() === 'mm') {
-          str.push(selMonth.length == 1 ? `0${selMonth}` : selMonth);
-        } else if(item.toLowerCase() === 'yyyy') {
-          str.push(selYear);
-        } else {
-          throw new SyntaxError("The date format you entered is incorrect. Please refer to the correct format, such as 'mm/dd/yyyy' | 'dd/mm/yyyy' | 'yyyy/mm/dd'")
-        }
-      });
-      return `${str[0]}\/${str[1]}\/${str[2]}`;
-    }
-    return "";
-  }
+      // formatList && formatList.forEach(item => {
+      //   if (item.toLowerCase() === 'dd') {
+      //     str.push(selDay.length == 1 ? `0${selDay}` : selDay);
+      //   } else if(item.toLowerCase() === 'mm') {
+      //     str.push(selMonth.length == 1 ? `0${selMonth}` : selMonth);
+      //   } else if(item.toLowerCase() === 'yyyy') {
+      //     str.push(selYear);
+      //   } else {
+      //     throw new SyntaxError("The date format you entered is incorrect. Please refer to the correct format, such as 'mm/dd/yyyy' | 'dd/mm/yyyy' | 'yyyy/mm/dd'")
+      //   }
+      // });
+  //     return `${selected[0]}\/${selected[1]}\/${selected[2]}`;
+  //   }
+  //   return "";
+  // }
 
   showCalendar() {
     this.isShowCalendar = true;
@@ -120,12 +125,11 @@ export class DatePickerComponent implements OnInit {
   
   clickDateHandel(date: string) {
     let d = (date && Number(date)) || (this.currentDate && Number(this.currentDate));
-    let selected = `${d}\/${this.currentMonth}\/${this.currentYear}`;
+    let selected = `${this.currentMonth}\/${d}\/${this.currentYear}`;
     this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, selected, this.startDay);
     this.selectedDate = selected;
     this.isShowCalendar = false;
     this.onDateChange.emit(selected);
-
   }
 
   showMonthList() {
