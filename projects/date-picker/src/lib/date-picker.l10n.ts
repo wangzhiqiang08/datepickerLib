@@ -30,6 +30,4 @@ export const ENGLISH = {
   'month.list.long.oct': 'October',
   'month.list.long.nov': 'November',
   'month.list.long.dec': 'December',
-  'date.selected.format': 'mm/dd/yyyy'
-
 };

@@ -33,7 +33,7 @@ export declare class DatePickerComponent implements OnInit {
     nextMonth(): void;
     showCalendar(): void;
     hideCalendar(): void;
-    clickDateHandel(date: string): void;
+    clickDateHandel(dateItem: any, index: number): void;
     showMonthList(): void;
     showYearList(): void;
     clickMonthHandel(month: number): void;

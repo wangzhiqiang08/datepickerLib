@@ -123,8 +123,24 @@ export class DatePickerComponent implements OnInit {
     this.isShowCalendar = false;
   }
   
-  clickDateHandel(date: string) {
-    let d = (date && Number(date)) || (this.currentDate && Number(this.currentDate));
+  clickDateHandel(dateItem: any, index: number) {
+    let d = (dateItem.date && Number(dateItem.date)) || (this.currentDate && Number(this.currentDate));
+    let totalMonthList = this.datePickerService.getTotalMonthList(this.currentYear, this.currentMonth, this.currentDate, this.startDay);
+    let startAndEndDate: any[] = [];
+    totalMonthList.forEach((item, index) => {
+      if (item == 1){
+        startAndEndDate.push(index);
+      }
+    })
+    let currentMonthFirstDayIndex = startAndEndDate[0];
+    let currentMonthLastDayIndex = startAndEndDate[1]
+    if (!dateItem.isCurrentMonth) {
+      if (index >= 0 && index <= currentMonthFirstDayIndex) {
+        this.currentMonth --;
+      } else if (index >= currentMonthLastDayIndex && index <= 41) {
+        this.currentMonth ++;
+      }
+    } 
     let selected = `${this.currentMonth}\/${d}\/${this.currentYear}`;
     this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, selected, this.startDay);
     this.selectedDate = selected;

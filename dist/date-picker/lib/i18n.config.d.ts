@@ -38,6 +38,5 @@ export declare const I18nConfig: {
         'month.list.long.oct': string;
         'month.list.long.nov': string;
         'month.list.long.dec': string;
-        'date.selected.format': string;
     }[];
 };

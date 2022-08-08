@@ -84,7 +84,7 @@
         </div>
         <div class="dayBox">
           <div class="row-list">
-            <button (click)="clickDateHandel(item.date)"  *ngFor="let item of totalCurrentMonthDaysList">
+            <button (click)="clickDateHandel(item, index)"  *ngFor="let item of totalCurrentMonthDaysList; let index = index">
               <span [style.display]="!selectedDate ? 'block' : 'none'" [ngClass]="{'notCurrentMonthDateStyle':!item.isCurrentMonth, 'currentDateBgcolor': item.isToday && item.isCurrentMonth && !selectedDate, 'currentDateFontWeight': item.isToday && item.isCurrentMonth}">
                 {{item.date}}
               </span>
