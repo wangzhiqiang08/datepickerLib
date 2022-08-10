@@ -29,26 +29,6 @@ class DatePickerService {
         let currentMonthList = this.getMonthList(calcResult.currentMonthLen);
         let previousMonthList = this.getMonthList(calcResult.previousMonthLen);
         let nextMonthList = this.getMonthList(calcResult.nextMonthLen);
-        // if (startDay == 1) {
-        //   if(startWeekDay == 1) {
-        //     dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
-        //   } else if (startWeekDay == 0) {
-        //     let previousMonthSlice = previousMonthList.slice(-6, previousMonthList.length);
-        //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
-        //   } else {
-        //     let previousMonthSlice = previousMonthList.slice(-startWeekDay+1, previousMonthList.length);
-        //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
-        //   }
-        //   return dayLists;
-        // } else if (startDay == 0) {
-        //   if(startWeekDay == 0) {
-        //     dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
-        //   } else {
-        //     let previousMonthSlice = previousMonthList.slice(-startWeekDay, previousMonthList.length);
-        //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
-        //   }
-        //   return dayLists;
-        // } else 
         if (startDay == 5 || startDay == 6 || startDay == 0 || startDay == 1) {
             if (startWeekDay == startDay) {
                 dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
@@ -3282,7 +3262,10 @@ class DatePickerComponent {
     localeChangedHandel() {
         this.localeService.userLocaleChanged.subscribe((locale) => __awaiter(this, void 0, void 0, function* () {
             yield this.VIPService.loadLocaleData();
-            this.sourceLocaleData = this.i18nService.resolveLocaleData(locale);
+            this.sourceLocaleData = this.i18nService.resolveLocaleData(locale) || SOURCE_LOCALE_DATA.categories;
+            if (!this.sourceLocaleData) {
+                new SyntaxError("The 'sourceLocaleData' has request error. It is " + this.sourceLocaleData + ".");
+            }
             this.weekList = this.sourceLocaleData.dates.daysFormat.narrow;
             this.monthList_wide = this.sourceLocaleData.dates.monthsFormat.wide;
             this.monthList_abbreviated = this.sourceLocaleData.dates.monthsFormat.abbreviated;
@@ -3348,10 +3331,22 @@ class DatePickerComponent {
         let currentMonthLastDayIndex = startAndEndDate[1];
         if (!dateItem.isCurrentMonth) {
             if (index >= 0 && index <= currentMonthFirstDayIndex) {
-                this.currentMonth--;
+                if (this.currentMonth > 1) {
+                    this.currentMonth--;
+                }
+                else if (this.currentMonth == 1) {
+                    this.currentMonth = 12;
+                    this.currentYear--;
+                }
             }
             else if (index >= currentMonthLastDayIndex && index <= 41) {
-                this.currentMonth++;
+                if (this.currentMonth < 12) {
+                    this.currentMonth++;
+                }
+                else if (this.currentMonth == 12) {
+                    this.currentMonth = 1;
+                    this.currentYear++;
+                }
             }
         }
         let selected = `${this.currentMonth}\/${d}\/${this.currentYear}`;

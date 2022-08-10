@@ -1,4 +1,3 @@
-import { WeekDay } from '@angular/common';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -30,27 +29,6 @@ export class DatePickerService {
     let currentMonthList = this.getMonthList(calcResult.currentMonthLen);
     let previousMonthList = this.getMonthList(calcResult.previousMonthLen);
     let nextMonthList = this.getMonthList(calcResult.nextMonthLen);
-
-    // if (startDay == 1) {
-    //   if(startWeekDay == 1) {
-    //     dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
-    //   } else if (startWeekDay == 0) {
-    //     let previousMonthSlice = previousMonthList.slice(-6, previousMonthList.length);
-    //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
-    //   } else {
-    //     let previousMonthSlice = previousMonthList.slice(-startWeekDay+1, previousMonthList.length);
-    //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
-    //   }
-    //   return dayLists;
-    // } else if (startDay == 0) {
-    //   if(startWeekDay == 0) {
-    //     dayLists = [...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length)];
-    //   } else {
-    //     let previousMonthSlice = previousMonthList.slice(-startWeekDay, previousMonthList.length);
-    //     dayLists =  [...previousMonthSlice, ...currentMonthList, ...nextMonthList.slice(0, 42 - currentMonthList.length - previousMonthSlice.length)];
-    //   }
-    //   return dayLists;
-    // } else 
 
     if (startDay == 5 || startDay == 6 || startDay == 0 || startDay == 1){
       if (startWeekDay ==  startDay) {

@@ -46,7 +46,10 @@ export class DatePickerComponent implements OnInit {
   localeChangedHandel() {
     this.localeService.userLocaleChanged.subscribe(async (locale) => {
       await this.VIPService.loadLocaleData();
-      this.sourceLocaleData = this.i18nService.resolveLocaleData(locale)
+      this.sourceLocaleData = this.i18nService.resolveLocaleData(locale) || SOURCE_LOCALE_DATA.categories;
+      if (!this.sourceLocaleData) {
+        new SyntaxError("The 'sourceLocaleData' has request error. It is " + this.sourceLocaleData + ".");
+      }
       this.weekList = this.sourceLocaleData.dates.daysFormat.narrow;
       this.monthList_wide = this.sourceLocaleData.dates.monthsFormat.wide;
       this.monthList_abbreviated = this.sourceLocaleData.dates.monthsFormat.abbreviated;
@@ -116,9 +119,19 @@ export class DatePickerComponent implements OnInit {
     let currentMonthLastDayIndex = startAndEndDate[1]
     if (!dateItem.isCurrentMonth) {
       if (index >= 0 && index <= currentMonthFirstDayIndex) {
-        this.currentMonth --;
+        if(this.currentMonth > 1) {
+          this.currentMonth --;
+        } else if(this.currentMonth == 1) {
+          this.currentMonth = 12;
+          this.currentYear --;
+        }
       } else if (index >= currentMonthLastDayIndex && index <= 41) {
-        this.currentMonth ++;
+        if(this.currentMonth < 12) {
+          this.currentMonth ++;
+        } else if(this.currentMonth == 12) {
+          this.currentMonth = 1;
+          this.currentYear ++;
+        }
       }
     } 
     let selected = `${this.currentMonth}\/${d}\/${this.currentYear}`;
