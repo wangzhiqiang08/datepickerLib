@@ -1,6 +1,5 @@
 import { OnInit } from '@angular/core';
 import { DatePickerService } from './date-picker.service';
-import { init } from './date-picker.model';
 import { LocaleService, I18nService, VIPService } from '@vmw/ngx-vip';
 import * as i0 from "@angular/core";
 export declare class DatePickerComponent implements OnInit {
@@ -20,8 +19,11 @@ export declare class DatePickerComponent implements OnInit {
     isShowDateList: boolean;
     isShowCalendar: boolean;
     isYearShowAtLeft: boolean;
+    sourceLocaleData: any;
+    weekList: any;
+    monthList_wide: Array<string>;
+    monthList_abbreviated: Array<string>;
     private onDateChange;
-    displayStrings: init;
     calendarWidth: any;
     startDay: number | string;
     constructor(datePickerService: DatePickerService, localeService: LocaleService, i18nService: I18nService, VIPService: VIPService);
@@ -44,5 +46,5 @@ export declare class DatePickerComponent implements OnInit {
     gotoCurrentYear(): void;
     closeDateBox(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<DatePickerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "displayStrings": "displayStrings"; "calendarWidth": "calendarWidth"; "startDay": "startDay"; }, { "onDateChange": "onDateChange"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<DatePickerComponent, "clarity-date-picker", never, { "calendarWidth": "calendarWidth"; "startDay": "startDay"; }, { "onDateChange": "onDateChange"; }, never, never>;
 }

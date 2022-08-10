@@ -55,7 +55,7 @@ export class TestComponent implements OnInit {
     
   }
   ngAfterViewInit() {
-    this.localeService.setCurrentRegion('ES');
+    this.localeService.setCurrentRegion('CN');
     this.selectedRegion = this.localeService.getCurrentRegion();
   }
   switchDrawer() {

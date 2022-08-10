@@ -29,20 +29,8 @@
     <div [style.display]="isShowDateList ? 'block' : 'none'">
       <div class="month-year-change">
         <div class="month-year-display">
-          <!-- <span (click)="showMonthList()">{{monthStrList[currentMonth-1].short}}</span> -->
           <span [style.display]="isYearShowAtLeft ? 'inline-block' : 'none'" (click)="showYearList()">{{currentYear}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 1">{{'month.list.short.jan' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 2">{{'month.list.short.feb' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 3">{{'month.list.short.mar' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 4">{{'month.list.short.apr' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 5">{{'month.list.short.may' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 6">{{'month.list.short.jun' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 7">{{'month.list.short.jul' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 8">{{'month.list.short.aug' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 9">{{'month.list.short.sep' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 10">{{'month.list.short.oct' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 11">{{'month.list.short.nov' | vtranslate}}</span>
-          <span (click)="showMonthList()" *ngIf="currentMonth == 12">{{'month.list.short.dec' | vtranslate}}</span>
+          <span (click)="showMonthList()" [style.display]="currentMonth == (index+1) ? 'inline-block' : 'none'" *ngFor="let month of monthList_abbreviated; let index = index">{{month}}</span>
           <span [style.display]="!isYearShowAtLeft ? 'inline-block' : 'none'" (click)="showYearList()">{{currentYear}}</span>
         </div>
         <div class="change-button">
@@ -70,17 +58,16 @@
       </div>
       <div class="day-list" id="myTable">
         <div class="weekDayList">
-          <!-- <span *ngFor="let weekDay of weekDayFormat">{{weekDay}}</span> -->
-          <span [style.display]="(startDay == 5) ? 'inline-block' : 'none'">{{'week.list.friday' | vtranslate}}</span>
-          <span [style.display]="(startDay == 6 || startDay == 5) ? 'inline-block' : 'none'">{{'week.list.saturday' | vtranslate}}</span>
-          <span [style.display]="(startDay == 0 || startDay == 6 || startDay == 5) ? 'inline-block' : 'none'">{{'week.list.sunday' | vtranslate}}</span>
-          <span>{{'week.list.monday' | vtranslate}}</span>
-          <span>{{'week.list.tuesday' | vtranslate}}</span>
-          <span>{{'week.list.wednesday' | vtranslate}}</span>
-          <span>{{'week.list.thursday' | vtranslate}}</span>
-          <span [style.display]="(startDay == 5) ? 'none' : 'inline-block'">{{'week.list.friday' | vtranslate}}</span>
-          <span [style.display]="(startDay == 6 || startDay == 5) ? 'none' : 'inline-block'">{{'week.list.saturday' | vtranslate}}</span>
-          <span [style.display]="(startDay == 1) ? 'inline-block' : 'none'">{{'week.list.sunday' | vtranslate}}</span>
+          <span [style.display]="(startDay == 5) ? 'inline-block' : 'none'">{{weekList[5]}}</span>
+          <span [style.display]="(startDay == 6 || startDay == 5) ? 'inline-block' : 'none'">{{weekList[6]}}</span>
+          <span [style.display]="(startDay == 0 || startDay == 6 || startDay == 5) ? 'inline-block' : 'none'">{{weekList[0]}}</span>
+          <span>{{weekList[1]}}</span>
+          <span>{{weekList[2]}}</span>
+          <span>{{weekList[3]}}</span>
+          <span>{{weekList[4]}}</span>
+          <span [style.display]="(startDay == 5) ? 'none' : 'inline-block'">{{weekList[5]}}</span>
+          <span [style.display]="(startDay == 6 || startDay == 5) ? 'none' : 'inline-block'">{{weekList[6]}}</span>
+          <span [style.display]="(startDay == 1) ? 'inline-block' : 'none'">{{weekList[0]}}</span>
         </div>
         <div class="dayBox">
           <div class="row-list">
@@ -98,21 +85,8 @@
     </div>
   
     <div class="month-select-box" [style.display]="isShowMonthList ? 'block' : 'none'">
-      <!-- <button (click)="clickMonthHandel(index+1)" [ngClass]="{'monthSelected': (index+1) == currentMonth}" *ngFor="let month of monthStrList; let index = index">{{month.long}}</button> -->
-      <button (click)="clickMonthHandel(1)" [ngClass]="{'monthSelected': currentMonth == 1}">{{'month.list.long.jan' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(2)" [ngClass]="{'monthSelected': currentMonth == 2}">{{'month.list.long.feb' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(3)" [ngClass]="{'monthSelected': currentMonth == 3}">{{'month.list.long.mar' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(4)" [ngClass]="{'monthSelected': currentMonth == 4}">{{'month.list.long.apr' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(5)" [ngClass]="{'monthSelected': currentMonth == 5}">{{'month.list.long.may' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(6)" [ngClass]="{'monthSelected': currentMonth == 6}">{{'month.list.long.jun' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(7)" [ngClass]="{'monthSelected': currentMonth == 7}">{{'month.list.long.jul' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(8)" [ngClass]="{'monthSelected': currentMonth == 8}">{{'month.list.long.aug' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(9)" [ngClass]="{'monthSelected': currentMonth == 9}">{{'month.list.long.sep' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(10)" [ngClass]="{'monthSelected': currentMonth == 10}">{{'month.list.long.oct' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(11)" [ngClass]="{'monthSelected': currentMonth == 11}">{{'month.list.long.nov' | vtranslate}}</button>
-      <button (click)="clickMonthHandel(12)" [ngClass]="{'monthSelected': currentMonth == 12}">{{'month.list.long.dec' | vtranslate}}</button>
+      <button (click)="clickMonthHandel(index+1)" [ngClass]="{'monthSelected': (index+1) == currentMonth}" *ngFor="let month of monthList_wide; let index = index">{{month}}</button>
     </div>
-  
     <div class="year-select-box" [style.display]="isShowYearList ? 'block' : 'none'">
       <div style="display:flex; justify-content: center;width: 100%;">
         <div class="change-button">

@@ -109,7 +109,7 @@ export class DatePickerService {
     } else {
       totalDates = totalDates.map((date: any, index: any) => {
         let isToday = (date === currentDate) && (month === currentMonth) && (year === currentYear);
-        let isSelected = (month === Number(selected[0])) && (date === Number(selected[1])) && (year === Number(selected[2])) && this.isCurrentMonthDate(totalDates, index+1);
+        let isSelected = (month === Number(selected[0])) && (date === Number(selected[1])) && (year === Number(selected[2])) && this.isCurrentMonthDate(totalDates, index);
         return {date: date, isToday: isToday, isSelected: isSelected, isCurrentMonth: null}
       })
       totalDates = this.filterAndSetCurrentMonthDate(totalDates);

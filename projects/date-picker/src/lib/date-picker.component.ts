@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePickerService } from './date-picker.service';
-import { init } from './date-picker.model';
+import { SOURCE_LOCALE_DATA } from './date-picker.model';
 import { LocaleService, I18nService, VIPService } from '@vmw/ngx-vip';
 
 @Component({
@@ -21,11 +21,13 @@ export class DatePickerComponent implements OnInit {
   isShowDateList: boolean = true;
   isShowCalendar: boolean = false;
   isYearShowAtLeft!: boolean;
+  sourceLocaleData: any = SOURCE_LOCALE_DATA;
+  weekList: any = SOURCE_LOCALE_DATA.categories.dates.daysFormat.narrow;
+  monthList_wide: Array<string> = SOURCE_LOCALE_DATA.categories.dates.monthsFormat.wide;
+  monthList_abbreviated: Array<string> = SOURCE_LOCALE_DATA.categories.dates.monthsFormat.abbreviated;
   
   @Output() 
   private onDateChange = new EventEmitter();
-  @Input()
-  public displayStrings!: init;
   
   @Input()
   public calendarWidth: any = 200;
@@ -44,9 +46,12 @@ export class DatePickerComponent implements OnInit {
   localeChangedHandel() {
     this.localeService.userLocaleChanged.subscribe(async (locale) => {
       await this.VIPService.loadLocaleData();
-      const localeData = this.i18nService.resolveLocaleData(locale)
-      this.startDay = localeData && localeData.dates.firstDayOfWeek ? Number(localeData.dates.firstDayOfWeek) : 0;
-      const dateFormat = localeData && localeData.dates.dateFormats.short ? localeData.dates.dateFormats.short : 'mm/dd/yyyy';
+      this.sourceLocaleData = this.i18nService.resolveLocaleData(locale)
+      this.weekList = this.sourceLocaleData.dates.daysFormat.narrow;
+      this.monthList_wide = this.sourceLocaleData.dates.monthsFormat.wide;
+      this.monthList_abbreviated = this.sourceLocaleData.dates.monthsFormat.abbreviated;
+      this.startDay = this.sourceLocaleData && this.sourceLocaleData.dates.firstDayOfWeek ? Number(this.sourceLocaleData.dates.firstDayOfWeek) : 0;
+      const dateFormat = this.sourceLocaleData && this.sourceLocaleData.dates.dateFormats.short ? this.sourceLocaleData.dates.dateFormats.short : 'mm/dd/yyyy';
       this.yearAndMonthBtnDisplayOrder(dateFormat);
       this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
       console.log('firstDayOfWeek:' + this.startDay ,"userLocalechanged:" + locale);
@@ -89,31 +94,6 @@ export class DatePickerComponent implements OnInit {
       this.totalCurrentMonthDaysList = this.datePickerService.setEveryDateStatus(this.currentYear, this.currentMonth, this.currentDate, this.selectedDate, this.startDay);
     }
   }
-  
-  // getDateDisplayFormat() {
-  //   if(this.selectedDate) {
-  //     let selected: any = this.selectedDate.split("/");
-      // let formatList = .split("/");
-      // let str: any = [];
-      // let selDay = selected[0];
-      // let selMonth = selected[1];
-      // let selYear = selected[2];
-
-      // formatList && formatList.forEach(item => {
-      //   if (item.toLowerCase() === 'dd') {
-      //     str.push(selDay.length == 1 ? `0${selDay}` : selDay);
-      //   } else if(item.toLowerCase() === 'mm') {
-      //     str.push(selMonth.length == 1 ? `0${selMonth}` : selMonth);
-      //   } else if(item.toLowerCase() === 'yyyy') {
-      //     str.push(selYear);
-      //   } else {
-      //     throw new SyntaxError("The date format you entered is incorrect. Please refer to the correct format, such as 'mm/dd/yyyy' | 'dd/mm/yyyy' | 'yyyy/mm/dd'")
-      //   }
-      // });
-  //     return `${selected[0]}\/${selected[1]}\/${selected[2]}`;
-  //   }
-  //   return "";
-  // }
 
   showCalendar() {
     this.isShowCalendar = true;
